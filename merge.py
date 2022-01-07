@@ -60,19 +60,14 @@ SUBDIVISION_STATES = {
     "Punjab": "PUNJAB",
     "Himachal Pradesh": "HIMACHAL PRADESH",
     "Jammu & Kashmir" : "JAMMU & KASHMIR",
-    # "Gujarat": "GUJARAT REGION",
     "Dadra and Nagar Haveli": "GUJARAT REGION",
     "Goa": "KONKAN & GOA",
-    # "Maharashtra": "MADHYA MAHARASHTRA",
     "Chhattisgarh": "CHHATTISGARH",
-    # "Andhra Pradesh": "COASTAL ANDHRA PRADESH",
     "Puducherry": "COASTAL ANDHRA PRADESH",
     "Telangana": "TELANGANA",
     "Tamil Nadu": "TAMIL NADU",
     "Kerala": "KERALA" 
 }
-    # "SUB HIMALAYAN WEST BENGAL & SIKKIM": "West Bengal",
-    # "GANGETIC WEST BENGAL": ["West Bengal"],
 
 def getSubDivision(x):
     district = x['District']
@@ -95,15 +90,18 @@ def prepare_rainfall_data():
     data = data[data['YEAR'] > 1996]
     data = data[data['YEAR'] < 2015]
 
-    data['Kharif'] = data[['JUL', 'AUG', 'SEP', 'OCT', 'NOV']].mean(axis=1)
-    data['Rabbi'] = data[['JAN', 'FEB', 'MAR', 'APR', 'MAY']].mean(axis=1)
+    data['Kharif'] = data[['JUL', 'AUG', 'SEP', 'OCT', 'NOV']].sum(axis=1)
+    data['Rabi'] = data[['JAN', 'FEB', 'MAR', 'APR', 'MAY']].sum(axis=1)
+    data['WholeYear'] = data['ANNUAL']
+    data['Autumn'] = data[['OCT','NOV','DEC']].sum(axis=1)
+    data['Summer'] = data[['MAY','JUN','JUL']].sum(axis=1)
+    data['Winter'] = data[['JAN','FEB','MAR']].sum(axis=1)
 
     data = data.drop(labels=['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG',
-                             'SEP', 'OCT', 'NOV', 'DEC', 'Jan-Feb', 'Mar-May', 'Jun-Sep', 'Oct-Dec'], axis=1)
+                             'SEP', 'OCT', 'NOV', 'DEC', 'Jan-Feb', 'Mar-May', 'Jun-Sep', 'Oct-Dec', 'ANNUAL'], axis=1)
     data.rename(columns={'SUBDIVISION': 'Subdivision',
-                         'YEAR': 'Year', 'ANNUAL': 'Annual'}, inplace=True)
+                         'YEAR': 'Year'}, inplace=True)
     return data
-
 
 def prepare_crop_production_data():
     # get crop production data
@@ -118,17 +116,21 @@ def prepare_crop_recommendation_data():
     # get crop recommendation data
     data = pd.read_csv(os.path.join(
         settings.DATA_DIR, settings.CROP_RECOMMENDATION_DATA), sep=",", header="infer")
-    return
+    return data
 
+
+# def getTemperature(x):
+#     return x[x['Season']]
 
 def merge(crop_production_data, rainfall_data):
     # merge two crop production and rainfall dataset on attribute state & year
 
     crop_production_data['Subdivision'] = crop_production_data.apply(lambda x : getSubDivision(x), axis=1 )
-    print(crop_production_data['Subdivision'].unique())
     data = pd.merge(crop_production_data, rainfall_data,
                     how='inner', on=['Subdivision', 'Year'])
 
+    data['Rainfall'] = data.apply(lambda x : x[x['Season'].replace(" ", "")], axis=1)
+    data = data.drop(labels=['Autumn', 'Summer', 'Winter', 'Kharif', 'Rabi', 'WholeYear'], axis=1)
     return data
 
 
@@ -137,6 +139,7 @@ if __name__ == "__main__":
     crop_production_data = prepare_crop_production_data()
     crop_recommendation_data = prepare_crop_recommendation_data()
     
+
     crop_yield_prediction_data = merge(crop_production_data, rainfall_data)
 
 
