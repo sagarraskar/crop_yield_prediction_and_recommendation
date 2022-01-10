@@ -19,8 +19,26 @@ SUBDIVISION_DISTRICTS = {
         "COASTAL KARNATAKA": ['UDUPI'],
         "NORTH INTERIOR KARNATAKA": ['BAGALKOT', 'BELGAUM', 'BELLARY', 'BIDAR', 'BIJAPUR', 'DHARWAD', 'GADAG', 'GULBARGA', 'HAVERI', 'KOPPAL', 'RAICHUR'],
         "SOUTH INTERIOR KARNATAKA": ['CHIKMAGALUR', 'CHITRADURGA', 'HASSAN', 'KODAGU', 'KOLAR', 'MYSORE', 'SHIMOGA', 'TUMKUR']
+    },
+    'MAHARASHTRA' : {
+        'KONKAN AND GOA' : ['palghar', 'thane', 'mumbai suburban', 'mumbai city', 'raigad', 'ratnagiri','sindhudurg','mumbai'], 
+        'MADHYA MAHARASHTRA' : ['ahmednagar', 'dhule', 'jalgaon', 'kolhapur', 'nandurbar', 'nashik', 'pune', 'sangli','satara', 'solapur'],
+        'MATATHWADA':['aurangabad', 'beed', 'jalna', 'parbhani', 'osmanabad', 'latur', 'nanded', 'hingoli'], 
+        'VIDARBHA' : ['buldhana', 'akola', 'washim', 'amravati', 'yavatmal', 'wardha', 'nagpur', 'chandrapur', 'gadchiroli', 'gondia', 'bhandara'],
+    },
+    'ANDHRA PRADESH' :{
+        'COASTAL ANDHRA PRADESH' : ['srikakulam', 'vizianagaram', 'vishakhapatnam', 'east godavari', 'west godavari', 'machilipatnam', 'guntur', 'prakasam', 'sandhi', 'spsr nellore', 'krishna', 'visakhapatanam'],
+        'RAYALSEEMA' : ['anantapur', 'chittoor', 'kadapa', 'kurnool'], 
+    },
+    "GUJARAT" :{
+        'GUJARAT REGION' : ['ahmadabad', 'anand', 'bharuch', 'chhota udaipur', 'dahod', 'kheda', 'mahisagar', 'panchmahal','dang', 'navsari', 'surat', 'narmada', 'bharuch', 'vadodara', 'tapi', 'valsad', 'mahesana','dadra and nagar haveli', 'patan', 'gandhinagar', 'banas kantha', 'dohad', 'panch mahals', 'sabar kantha'],
+        'SAURASHTRA AND KUTCH' : ['kachchh', 'devbhoomi dwarka', 'jamnagar', 'morbi', 'rajkot', 'porbandar', 'junagadh', 'gir somnath', 'amreli', 'bhavnagar', 'botad', 'surendranagar'],
+    },
+    "WEST BENGAL":{
+        'GANGETIC WEST BENGAL' : ['bankura', 'paschim bardhaman', 'purba bardhaman', 'birbhum', 'purulia', 'murshidabad', 'nadia', 'west midnapore', 'jhargram', 'east midnapore', 'hooghly', 'howrah', 'kolkata', 'north 24 parganas', 'south 24 parganas', '24 paraganas north', '24 paraganas south',
+                                 'bardhaman', 'dinajpur dakshin', 'dinajpur uttar',  'maldah', 'medinipur east','medinipur west'],
+        'SUB HIMALAYAN WEST BENGAL AND SIKKIM': ['darjeeling', 'jalpaiguri', 'coochbehar']
     }
-
 }
 
 SUBDIVISION_STATES = {
@@ -42,19 +60,14 @@ SUBDIVISION_STATES = {
     "Punjab": "PUNJAB",
     "Himachal Pradesh": "HIMACHAL PRADESH",
     "Jammu & Kashmir" : "JAMMU & KASHMIR",
-    "Gujarat": "GUJARAT REGION",
     "Dadra and Nagar Haveli": "GUJARAT REGION",
     "Goa": "KONKAN & GOA",
-    "Maharashtra": "MADHYA MAHARASHTRA",
     "Chhattisgarh": "CHHATTISGARH",
-    "Andhra Pradesh": "COASTAL ANDHRA PRADESH",
     "Puducherry": "COASTAL ANDHRA PRADESH",
     "Telangana": "TELANGANA",
     "Tamil Nadu": "TAMIL NADU",
     "Kerala": "KERALA" 
 }
-    # "SUB HIMALAYAN WEST BENGAL & SIKKIM": "West Bengal",
-    # "GANGETIC WEST BENGAL": ["West Bengal"],
 
 def getSubDivision(x):
     district = x['District']
@@ -119,6 +132,7 @@ if __name__ == "__main__":
     crop_production_data = prepare_crop_production_data()
     crop_recommendation_data = prepare_crop_recommendation_data()
     
+
     crop_yield_prediction_data = merge(crop_production_data, rainfall_data)
 
 
