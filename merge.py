@@ -132,17 +132,15 @@ def merge(crop_production_data, rainfall_data):
     return data
 
 
-def store_data(data, prefix):
-    data.to_csv(os.path.join(settings.PROCESSED_DIR,
-                             "{}.csv".format(prefix)), sep=",")
-
-
 if __name__ == "__main__":
     rainfall_data = prepare_rainfall_data()
     crop_production_data = prepare_crop_production_data()
-
-    crop_yield_prediction_data = merge(crop_production_data, rainfall_data)
     crop_recommendation_data = prepare_crop_recommendation_data()
+    
+    crop_yield_prediction_data = merge(crop_production_data, rainfall_data)
 
-    # store_data(crop_yield_prediction_data, "crop_prediction")
-    # store_data(crop_recommendation_data, "crop_recommendation")
+
+    # store dataset for future use 
+    crop_yield_prediction_data.to_csv(os.path.join(settings.PROCESSED_DIR, "crop_prediction.csv"), sep=",")
+    crop_recommendation_data.to_csv(os.path.join(settings.PROCESSED_DIR, "crop_recommendation.csv"), sep=",")
+
