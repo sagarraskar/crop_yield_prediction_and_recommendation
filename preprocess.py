@@ -21,11 +21,23 @@ if __name__ == '__main__':
     crop_production.dropna(axis=0, inplace=True)
     crop_recommendation.dropna(axis=0, inplace=True)
 
-    # Drop crops with less than 400 entries
+    # get no. of rows of each crop
+    crop_production_count = crop_production.groupby(['Crop']).size().reset_index(name='count')
 
-    # Normalize values
-    # crop_production = crop_production.apply(lambda x: (x - x.min()) / (x.max() - x.min()))
-    # crop_recommendation = crop_recommendation.apply(lambda x: (x - x.min()) / (x.max() - x.min()))
+    # get crop names having count less than 100
+    removed_crops = crop_production_count[crop_production_count['count'] < 100]['Crop'].to_list()
+
+    # get crop name from removed_crops file and add them to removed_crops list
+    with open(os.path.join(settings.REPORT_DIR, "removed_crops.txt"), 'r') as f:
+        for line in f:
+            removed_crops.append(line.strip())
+
+    # remove rows whose crops are in the list removed_crops
+    crop_production = crop_production[~crop_production['Crop'].isin(removed_crops)]
+
+    # Normalize production and area columns
+    crop_production['Production'] = crop_production['Production'] / crop_production['Production'].max()
+    crop_production['Area'] = crop_production['Area'] / crop_production['Area'].max()
 
     # encoding of categorical values
 

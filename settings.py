@@ -1,5 +1,6 @@
 DATA_DIR="data"
 PROCESSED_DIR="processed"
+REPORT_DIR="Report"
 RAINFALL_DATA="rainfall.csv"
 CROP_PRODUCTION_DATA="crop_production.csv"
 CROP_RECOMMENDATION_DATA="crop_recommendation.csv"
