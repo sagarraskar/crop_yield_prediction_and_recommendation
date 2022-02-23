@@ -3,6 +3,7 @@ import settings
 import pandas as pd
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
 
 def get_data():
     crop_production = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_DATA), sep=',')
@@ -68,7 +69,13 @@ if __name__ == '__main__':
     crop_production_train.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TRAIN_DATA), sep=',', index=False)
     crop_production_test.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TEST_DATA), sep=',', index=False)
 
+    # 
+    y_train = crop_production_train['Production']
+    x_train = crop_production_train.drop(labels=['Production'], axis=1)
     # Random Forest
+    model = RandomForestRegressor()
+    model.fit(x_train, y_train)
     # SVM
+    
     # Neural Network
 
