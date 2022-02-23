@@ -16,7 +16,7 @@ function App() {
         <AppBar position="sticky">
           <Toolbar>
             <Typography variant="h6" color="inherit">
-              Crop Predictor
+              Crop Yield Predictor And Recommender
             </Typography>
           </Toolbar>
         </AppBar>

@@ -8,7 +8,7 @@ export default function StateSelect({ state, district, setDistrict }) {
   return (
     <Autocomplete
       id="districts-autocomplete"
-      options={state?districts[state]: ['']}
+      options={state? (state in districts) ? districts[state]:['']: ['']}
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Select District" />}
       value={district || null}
@@ -19,4 +19,4 @@ export default function StateSelect({ state, district, setDistrict }) {
   );
 }
 
-const districts = {"Maharashtra": ['Ahmednagar', 'Pune']}
+const districts = {"Maharashtra": ['Ahmednagar', 'Pune'], 'Madhya Pradesh': ['Bhopal', 'Indore']}
