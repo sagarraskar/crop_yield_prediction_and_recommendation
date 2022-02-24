@@ -143,6 +143,6 @@ if __name__ == "__main__":
 
 
     # store dataset for future use 
-    crop_yield_prediction_data.to_csv(os.path.join(settings.PROCESSED_DIR, "crop_production.csv"), sep=",")
-    crop_recommendation_data.to_csv(os.path.join(settings.PROCESSED_DIR, "crop_recommendation.csv"), sep=",")
+    crop_yield_prediction_data.to_csv(os.path.join(settings.PROCESSED_DIR, "crop_production.csv"), sep=",", index=False)
+    crop_recommendation_data.to_csv(os.path.join(settings.PROCESSED_DIR, "crop_recommendation.csv"), sep=",", index=False)
 
