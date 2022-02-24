@@ -119,8 +119,6 @@ def prepare_crop_recommendation_data():
     return data
 
 
-# def getTemperature(x):
-#     return x[x['Season']]
 
 def merge(crop_production_data, rainfall_data):
     # merge two crop production and rainfall dataset on attribute state & year
