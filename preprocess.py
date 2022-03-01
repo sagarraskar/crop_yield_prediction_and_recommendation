@@ -22,8 +22,7 @@ if __name__ == '__main__':
     crop_recommendation['temperature'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['temperature'].values.reshape(-1,1))
     crop_recommendation['ph'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['ph'].values.reshape(-1,1))
     crop_recommendation['rainfall'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['rainfall'].values.reshape(-1,1))
-    crop_recommendation['label'] = preprocessing.LabelEncoder().fit_transform(crop_recommendation['label'])
-    
+
     # split dataset 
     crop_recommendation_train, crop_recommendation_test = train_test_split(crop_recommendation, test_size=0.2, random_state=42)
     
@@ -54,14 +53,7 @@ if __name__ == '__main__':
     crop_production['Production'] = crop_production['Production'] / crop_production['Area']
     crop_production.drop(['Area'], axis=1, inplace=True)
 
-    crop_production_per_crop = {}
-    for crop in crop_production['Crop'].unique():
-        crop_production_per_crop[crop] = crop_production[crop_production['Crop'] == crop]
-
-
-
     # normalize values
-    # crop_production['Production'] = preprocessing.MinMaxScaler().fit_transform(crop_production['Production'].values.reshape(-1, 1))
     crop_production['Rainfall'] = preprocessing.MinMaxScaler().fit_transform(crop_production['Rainfall'].values.reshape(-1, 1))
     
     # convert type of columns to 'category'
@@ -77,7 +69,6 @@ if __name__ == '__main__':
 
     # drop columns which are not required
     crop_production.drop(['District', 'Year', 'Subdivision'], axis=1, inplace=True)
-    # crop_production.drop(crop_production.columns[0], axis=1, inplace=True)
 
     
     # split dataset into training and test set
@@ -87,14 +78,4 @@ if __name__ == '__main__':
     # save data
     crop_production_train.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TRAIN_DATA), sep=',', index=False)
     crop_production_test.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TEST_DATA), sep=',', index=False)
-
-    # 
-    # y_train = crop_production_train['Production']
-    # x_train = crop_production_train.drop(labels=['Production'], axis=1)
-    # # Random Forest
-    # model = RandomForestRegressor()
-    # model.fit(x_train, y_train)
-    # SVM
-    
-    # Neural Network
 
