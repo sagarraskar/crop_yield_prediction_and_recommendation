@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 import json
 import pickle
+import joblib
 def get_data():
     crop_production = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_DATA), sep=',')
     crop_recommendation = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_RECOMMENDATION_DATA), sep=',')
@@ -17,13 +18,19 @@ if __name__ == '__main__':
     
     ###############  Crop Recommendation ############################
     # normalize values in crop_recommendation
-    crop_recommendation['N'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['N'].values.reshape(-1, 1))
-    crop_recommendation['P'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['P'].values.reshape(-1, 1))
-    crop_recommendation['K'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['K'].values.reshape(-1, 1))
-    crop_recommendation['temperature'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['temperature'].values.reshape(-1,1))
-    crop_recommendation['ph'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['ph'].values.reshape(-1,1))
-    crop_recommendation['rainfall'] = preprocessing.MinMaxScaler().fit_transform(crop_recommendation['rainfall'].values.reshape(-1,1))
-
+    min_max_scaler = preprocessing.MinMaxScaler()
+    crop_recommendation['N'] = min_max_scaler.fit_transform(crop_recommendation['N'].values.reshape(-1, 1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_N_scaler.gz'))
+    crop_recommendation['P'] = min_max_scaler.fit_transform(crop_recommendation['P'].values.reshape(-1, 1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_P_scaler.gz'))
+    crop_recommendation['K'] = min_max_scaler.fit_transform(crop_recommendation['K'].values.reshape(-1, 1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_K_scaler.gz'))
+    crop_recommendation['temperature'] = min_max_scaler.fit_transform(crop_recommendation['temperature'].values.reshape(-1,1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_temperature_scaler.gz'))
+    crop_recommendation['ph'] = min_max_scaler.fit_transform(crop_recommendation['ph'].values.reshape(-1,1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_ph_scaler.gz'))
+    crop_recommendation['rainfall'] = min_max_scaler.fit_transform(crop_recommendation['rainfall'].values.reshape(-1,1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_rainfall_scaler.gz'))
     # split dataset 
     crop_recommendation_train, crop_recommendation_test = train_test_split(crop_recommendation, test_size=0.2, random_state=42)
     
@@ -55,8 +62,9 @@ if __name__ == '__main__':
     crop_production.drop(['Area'], axis=1, inplace=True)
 
     # normalize values
-    crop_production['Rainfall'] = preprocessing.MinMaxScaler().fit_transform(crop_production['Rainfall'].values.reshape(-1, 1))
-    
+    min_max_scaler = preprocessing.MinMaxScaler()
+    crop_production['Rainfall'] = min_max_scaler.fit_transform(crop_production['Rainfall'].values.reshape(-1, 1))
+    joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'yield_rainfall_scaler.gz')) 
     # convert type of columns to 'category'
     crop_production['Crop'] = crop_production['Crop'].astype('category')
     crop_production['State'] = crop_production['State'].astype('category')
