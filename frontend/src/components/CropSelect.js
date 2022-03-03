@@ -9,7 +9,7 @@ export default function StateSelect({ crop, setCrop }) {
     <Autocomplete
       id="crops-autocomplete"
       options={crops}
-      sx={{ width: 300 }}
+      sx={{ width: '100%'}}
       renderInput={(params) => <TextField {...params} label="Select Crop" />}
       value={crop || null}
       onChange={(event, value) => setCrop(value)}

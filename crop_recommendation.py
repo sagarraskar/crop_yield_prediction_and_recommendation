@@ -1,7 +1,8 @@
 import os
-import settings
+import pickle
 import pandas as pd
 import json
+import settings
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import svm
@@ -9,8 +10,8 @@ from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
 import pickle
 def get_data():
-    crop_recommendation_train = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_RECOMMENDATION_TEST_DATA), sep=',')
-    crop_recommendation_test = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_RECOMMENDATION_TRAIN_DATA), sep=',')
+    crop_recommendation_train = pd.read_csv(os.path.join('processed', 'crop_recommendation_train.csv'), sep=',')
+    crop_recommendation_test = pd.read_csv(os.path.join('processed', 'crop_recommendation_test.csv'), sep=',')
     return [crop_recommendation_train, crop_recommendation_test]
 
 if __name__ == '__main__':
@@ -23,16 +24,9 @@ if __name__ == '__main__':
     y_test = crop_recommendation_test['label']
        
     
-    # Decision Tree Classifier
-    Dt_model = DecisionTreeClassifier()
-    Dt_model.fit(x_train, y_train)
-    Dt_model.score(x_test, y_test)
-    
     # Random Forest Classifier model
-    rfr_model = RandomForestClassifier(n_estimators=300)
+    rfr_model = RandomForestClassifier(n_estimators=30, max_depth=10)
     rfr_model.fit(x_train, y_train)
-    
-    # SVM
 
     # svc_model = svm.SVC()    
     # svc_model.fit(x_train, y_train)

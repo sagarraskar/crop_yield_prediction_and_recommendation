@@ -10,7 +10,7 @@ export default function StateSelect({ state, setState }) {
     <Autocomplete
       id="states-autocomplete"
       options={states}
-      sx={{ width: 300 }}
+      sx={{ width: '100%'}}
       renderInput={(params) => <TextField {...params} label="Select State" />}
       value={state || null}
       onChange={(event, value) => setState(value)}

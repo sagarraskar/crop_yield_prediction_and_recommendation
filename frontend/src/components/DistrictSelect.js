@@ -9,7 +9,7 @@ export default function StateSelect({ state, district, setDistrict }) {
     <Autocomplete
       id="districts-autocomplete"
       options={state? (state in districts) ? districts[state]:['']: ['']}
-      sx={{ width: 300 }}
+      sx={{ width: '100%' }}
       renderInput={(params) => <TextField {...params} label="Select District" />}
       value={district || null}
       onChange={(event, value) => setDistrict(value)}

@@ -9,7 +9,7 @@ export default function StateSelect({ season, setSeason }) {
     <Autocomplete
       id="seasons-autocomplete"
       options={seasons}
-      sx={{ width: 300 }}
+      sx={{ width: '100%'}}
       renderInput={(params) => <TextField {...params} label="Select Season" />}
       value={season || null}
       onChange={(event, value) => setSeason(value)}

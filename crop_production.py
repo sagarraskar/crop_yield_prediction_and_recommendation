@@ -1,6 +1,7 @@
 import os
-import settings
+import pickle
 import pandas as pd
+import settings
 import json
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
@@ -34,10 +35,8 @@ if __name__ == '__main__':
     Dt_model.score(x_test, y_test)
     
     # Random Forest Regressor model
-    rfr_model = RandomForestRegressor(n_estimators=300)
+    rfr_model = RandomForestRegressor(n_estimators=70, max_depth=12)
     rfr_model.fit(x_train, y_train)
-    
-    # SVM
 
     # svr_model = svm.SVR()    
     # svr_model.fit(x_train, y_train)
