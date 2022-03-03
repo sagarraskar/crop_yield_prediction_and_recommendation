@@ -4,33 +4,47 @@ import StateSelect from './StateSelect';
 import DistrictSelect from './DistrictSelect';
 import CropSelect from './CropSelect';
 import SeasonSelect from './SeasonSelect';
-import { Box, Container, Typography, Button, Grid } from '@mui/material';
+import { TextField, Container, Typography, Button, Grid } from '@mui/material';
 
 function Predict() {
     const [state, setState] = React.useState(null);
     const [district, setDistrict] = React.useState(null);
     const [crop, setCrop] = React.useState(null);
     const [season, setSeason] = React.useState(null);
+    const [rainfall, setRainfall] = React.useState(null);
+    const [prediction, setPrediction] = React.useState(null);
 
     const predictCrop = () => {
-        const url = baseUrl + '/predict?' + (new URLSearchParams({state: state, district: district, crop: crop, season: season})).toString();
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        }
-        );
-        
+        const url = baseUrl + '/predict'
+        // make post request to backend
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                state: state,
+                district: district,
+                crop: crop,
+                season: season,
+                rainfall: rainfall
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                setPrediction(data.prediction);
+            });
+
     }
     return (
         <div>
             <Container style={{ height: "90vh", marginTop: '2%' }} maxWidth='md'>
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid container item xs={12} sm={5} justifyContent='center' >
-                        <StateSelect state={state} setState={setState}/>
+                        <StateSelect state={state} setState={setState} />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
-                        <DistrictSelect state={state} district={district} setDistrict={setDistrict}/>
+                        <DistrictSelect state={state} district={district} setDistrict={setDistrict} />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <SeasonSelect season={season} setSeason={setSeason} />
@@ -38,7 +52,20 @@ function Predict() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <CropSelect crop={crop} setCrop={setCrop} />
                     </Grid>
-
+                    <Grid container item xs={12} sm={5} justifyContent="center">
+                        <TextField
+                            id="rainfall"
+                            label="Rainfall"
+                            type="number"
+                            fullWidth
+                            variant="outlined"
+                            style={{ width: '100%' }}
+                            value={rainfall}
+                            onChange={(e) => setRainfall(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid container item xs={12} sm={5} justifyContent="center">
+                    </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <Button variant="contained" onClick={predictCrop}>
                             Predict
@@ -48,7 +75,7 @@ function Predict() {
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <Typography textAlign='center' style={{ marginTop: 50 }}>
-                            Crop Yield Prediction
+                            {prediction}
                         </Typography>
                     </Grid>
                 </Grid>
