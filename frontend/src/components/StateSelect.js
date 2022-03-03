@@ -22,7 +22,7 @@ export default function StateSelect({ state, setState }) {
 
 const states = ['Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh',
 'Dadra and Nagar Haveli', 'Goa', 'Haryana', 'Himachal Pradesh',
-'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Manipur',
-'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry',
+'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra',
+ 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry',
 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Tripura',
 'Uttar Pradesh', 'Uttarakhand'];

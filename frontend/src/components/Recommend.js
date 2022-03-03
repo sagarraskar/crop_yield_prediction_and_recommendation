@@ -2,77 +2,48 @@ import React from 'react';
 
 import StateSelect from './StateSelect';
 import DistrictSelect from './DistrictSelect';
-import CropSelect from './CropSelect';
 import SeasonSelect from './SeasonSelect';
 import { Box, Container, Typography, Button, TextField, Grid } from '@mui/material';
 
 function Predict() {
     const [state, setState] = React.useState(null);
     const [district, setDistrict] = React.useState(null);
-    const [crop, setCrop] = React.useState(null);
-    const [season, setSeason] = React.useState(null);
+    const [nitrogen, setNitrogen] = React.useState(null);
+    const [phosphorus, setPhosphorus] = React.useState(null);
+    const [potassium, setPotassium] = React.useState(null);
+    const [rainfall, setRainfall] = React.useState(null);
+    const [humidity, setHumidity] = React.useState(null);
+    const [pH, setpH] = React.useState(null);
+    const [temperature, settemperature] = React.useState(null);
+    const [recommendation, setRecommendation] = React.useState(null);
 
-
+    const recommendCrop = () => {
+        const url = baseUrl + '/recommend'
+        // make post request to backend
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                state: state,
+                district: district,
+                nitrogen: nitrogen,
+                phosphorus: phosphorus,
+                potassium: potassium,
+                rainfall: rainfall,
+                humidity: humidity,
+                pH: pH,
+                temperature: temperature
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setRecommendation(data.recommendation);
+        });
+    }
     return (
         <div>
-            {/* <Container style={{ height: "90vh" }} maxWidth='md'>
-                <Box
-                    component="form"
-                    sx={{
-                        '& .MuiTextField-root': { m: 1, width: '300' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                    display="flex"
-                    flexDirection="column"
-                    textAlign='center'
-                    justifyContent='space-evenly'
-                    alignItems='center'
-                    style={{ height: '40%', marginTop: '10%' }}
-                >
-                    <div>
-                        <StateSelect state={state} setState={setState}/>
-                        <DistrictSelect state={state} district={district} setDistrict={setDistrict} />
-                        <CropSelect crop={crop} setCrop={setCrop} />
-                        <SeasonSelect season={season} setSeason={setSeason} />
-                    </div>
-                    <div style={{width: '80%'}}>
-                        <TextField
-                            id="N"
-                            label="Nitrogen"
-                            type="number"
-                            variant="outlined"
-                            fullWidth
-                            style={{ display: 'inline-block' }}
-                        />
-                        <TextField
-                            id="N"
-                            label="Phosphorus"
-                            type="number"
-                            variant="outlined"
-                            fullWidth
-                            style={{ display: 'inline-block' }}
-
-                        />
-                        <TextField
-                            id="N"
-                            label="Potassium"
-                            type="number"
-                            fullWidth
-                            variant="outlined"
-                            style={{ display: 'inline-block' }}
-                        />
-                    </div>
-                    <Button variant="contained" >
-                        Predict
-                    </Button>
-                </Box>
-                <div style={{ height: '40%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <Typography textAlign='center' style={{ marginTop: 50 }}>
-                        Crop Recommended
-                    </Typography>
-                </div>
-            </Container> */}
             <Container style={{ height: "90vh", marginTop: '2%' }} maxWidth='md'>
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid container item xs={12} sm={5} justifyContent='center' >
@@ -91,6 +62,8 @@ function Predict() {
                             type="number"
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={nitrogen}
+                            onChange={(e) => setNitrogen(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -101,6 +74,8 @@ function Predict() {
                             fullWidth
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={potassium}
+                            onChange={(e) => setPotassium(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -110,6 +85,8 @@ function Predict() {
                             type="number"
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={phosphorus}
+                            onChange={(e) => setPhosphorus(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -120,6 +97,8 @@ function Predict() {
                             fullWidth
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={pH}
+                            onChange={(e) => setpH(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -129,6 +108,8 @@ function Predict() {
                             type="number"
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={temperature}
+                            onChange={(e) => settemperature(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -139,6 +120,8 @@ function Predict() {
                             fullWidth
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={humidity}
+                            onChange={(e) => setHumidity(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -149,6 +132,8 @@ function Predict() {
                             fullWidth
                             variant="outlined"
                             style={{ width: '100%' }}
+                            value={rainfall}
+                            onChange={(e) => setRainfall(e.target.value)}
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
@@ -160,7 +145,7 @@ function Predict() {
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid item>
                         <Typography textAlign='center' style={{ marginTop: 50 }}>
-                            Recommended Crops are
+                            {recommendation}
                         </Typography>
                     </Grid>
                 </Grid>
