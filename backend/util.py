@@ -42,8 +42,6 @@ def recommend_crop(State, District, N, P, K, temperature, humidity, ph, rainfall
     global __data_columns_recommend
     global __recommend_model
     x = np.zeros(len(__data_columns_recommend))
-    temperature = 0
-    rainfall = 0
     x[0] = N
     x[1] = P
     x[2] = K
