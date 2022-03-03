@@ -136,3 +136,9 @@ CropPrediction.ipynb
 Recommendation.ipynb
 CropPrediction1.ipynb
 CropRecommendation.ipynb
+yield_columns.json
+crop_encoder.pkl
+crop_recommendation_rfc.pickle
+crop_yield_prediction_dt_model.pickle
+recommendation_columns.json
+state_encoder.pkl

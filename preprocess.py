@@ -4,7 +4,8 @@ import pandas as pd
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-
+import json
+import pickle
 def get_data():
     crop_production = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_DATA), sep=',')
     crop_recommendation = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_RECOMMENDATION_DATA), sep=',')
@@ -64,7 +65,13 @@ if __name__ == '__main__':
 
     # encoding of categorical values
     crop_production['State'] = preprocessing.LabelEncoder().fit_transform(crop_production['State'])
+    output = open('state_encoder.pkl', 'wb')
+    pickle.dump(preprocessing.LabelEncoder(), output)
+    output.close()
     crop_production['Crop'] = preprocessing.LabelEncoder().fit_transform(crop_production['Crop'])
+    output = open('crop_encoder.pkl', 'wb')
+    pickle.dump(preprocessing.LabelEncoder(), output)
+    output.close()
     crop_production = pd.get_dummies(crop_production, columns=['Season'])
 
     # drop columns which are not required
@@ -78,4 +85,3 @@ if __name__ == '__main__':
     # save data
     crop_production_train.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TRAIN_DATA), sep=',', index=False)
     crop_production_test.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TEST_DATA), sep=',', index=False)
-

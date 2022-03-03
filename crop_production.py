@@ -1,16 +1,17 @@
 import os
 import settings
 import pandas as pd
+import json
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn import svm
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF
-
+import pickle
 def get_data():
-    crop_production_train = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TEST_DATA), sep=',')
-    crop_production_test = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_RECOMMENDATION_TRAIN_DATA), sep=',')
+    crop_production_train = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TRAIN_DATA), sep=',')
+    crop_production_test = pd.read_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_PRODUCTION_TEST_DATA), sep=',')
     return [crop_production_train, crop_production_test]
 
 if __name__ == '__main__':
@@ -23,9 +24,9 @@ if __name__ == '__main__':
     y_test = crop_production_test['Production']
     
     # Linear Regression
-    lr_model = LinearRegression()
-    lr_model.fit(x_train, y_train)
-    lr_model.score(x_test, y_test)    
+    # lr_model = LinearRegression()
+    # lr_model.fit(x_train, y_train)
+    # lr_model.score(x_test, y_test)    
     
     # Decision Tree Regressor
     Dt_model = DecisionTreeRegressor()
@@ -38,9 +39,9 @@ if __name__ == '__main__':
     
     # SVM
 
-    svr_model = svm.SVR()    
-    svr_model.fit(x_train, y_train)
-    svr_model.score(x_test, y_test)
+    # svr_model = svm.SVR()    
+    # svr_model.fit(x_train, y_train)
+    # svr_model.score(x_test, y_test)
     
     # Gaussian Process Regression
     
@@ -48,3 +49,14 @@ if __name__ == '__main__':
     # gaussian_process = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=9)
     # gaussian_process.fit(x_train, y_train)
     # gaussian_process.score(x_test, y_test)
+    
+    # storing crop production column names
+    columns = {
+        'data_columns' : [col.lower().split(' ')[0] for col in x_train.columns]
+    }
+    with open(os.path.join(settings.BACKEND_DIR, 'yield_columns.json'), 'w') as f:
+        f.write(json.dumps(columns))
+        
+
+    with open(os.path.join(settings.BACKEND_DIR,'crop_yield_prediction_dt_model.pickle'), 'wb') as f:
+        pickle.dump(Dt_model, f)
