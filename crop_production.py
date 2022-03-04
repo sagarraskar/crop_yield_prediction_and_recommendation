@@ -30,14 +30,17 @@ if __name__ == '__main__':
     # lr_model.score(x_test, y_test)    
     
     # Decision Tree Regressor
-    Dt_model = DecisionTreeRegressor()
-    Dt_model.fit(x_train, y_train)
-    Dt_model.score(x_test, y_test)
+    # Dt_model = DecisionTreeRegressor()
+    # Dt_model.fit(x_train, y_train)
+    # Dt_model.score(x_test, y_test)
     
     # Random Forest Regressor model
     rfr_model = RandomForestRegressor(n_estimators=70, max_depth=12)
     rfr_model.fit(x_train, y_train)
-
+    rfr_model.feature_names = list(x_train.columns.values)
+    # save model
+    # pickle.dump(rfr_model, open(os.path.join(settings.BACKEND_DIR, settings.CROP_PRODUCTION_MODEL), 'wb'))
+    
     # svr_model = svm.SVR()    
     # svr_model.fit(x_train, y_train)
     # svr_model.score(x_test, y_test)
@@ -51,11 +54,11 @@ if __name__ == '__main__':
     
     # storing crop production column names
     columns = {
-        'data_columns' : [col.lower().split(' ')[0] for col in x_train.columns]
+        'data_columns' : [col for col in x_train.columns]
     }
     with open(os.path.join(settings.BACKEND_DIR, 'yield_columns.json'), 'w') as f:
         f.write(json.dumps(columns))
         
 
-    with open(os.path.join(settings.BACKEND_DIR,'crop_yield_prediction_dt_model.pickle'), 'wb') as f:
-        pickle.dump(Dt_model, f)
+    with open(os.path.join(settings.BACKEND_DIR,'crop_yield_prediction_rfr_model.pickle'), 'wb') as f:
+        pickle.dump(rfr_model, f)

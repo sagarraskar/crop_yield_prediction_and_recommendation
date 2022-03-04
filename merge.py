@@ -87,8 +87,6 @@ def getSubDivision(x):
         for subdivision in SUBDIVISION_DISTRICTS[state]:
             if district in SUBDIVISION_DISTRICTS[state][subdivision]:
                 return subdivision
-    # with open('temp.txt', 'a') as f:
-    #     f.write(state + ', ' + district + '\n')
     return None
 
 

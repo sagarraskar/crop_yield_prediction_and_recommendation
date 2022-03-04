@@ -1,5 +1,6 @@
 import os
 import pickle
+import joblib
 import pandas as pd
 import json
 import settings
@@ -25,27 +26,14 @@ if __name__ == '__main__':
        
     
     # Random Forest Classifier model
-    rfr_model = RandomForestClassifier(n_estimators=30, max_depth=10)
-    rfr_model.fit(x_train, y_train)
-
-    # svc_model = svm.SVC()    
-    # svc_model.fit(x_train, y_train)
-    # svc_model.score(x_test, y_test)
-    
-    # Gaussian Process Regression
-    
-    # kernel = 1 * RBF(length_scale=1.0, length_scale_bounds=(1e-2, 1e2))
-    # gaussian_process = GaussianProcessClassifier(kernel=kernel, n_restarts_optimizer=9)
-    # gaussian_process.fit(x_train, y_train)
-    # gaussian_process.score(x_test, y_test)
-    
-    # storing crop recommendation column names
+    rfc_model = RandomForestClassifier(n_estimators=30, max_depth=10)
+    rfc_model.fit(x_train, y_train)
+    rfc_model.feature_names = list(x_train.columns.values)
     columns = {
-        'data_columns' : [col.lower() for col in x_train.columns]
+        'data_columns' : [col for col in x_train.columns]
     }
     with open(os.path.join(settings.BACKEND_DIR,'recommendation_columns.json'), 'w') as f:
         f.write(json.dumps(columns))
-    
-    
+
     with open(os.path.join(settings.BACKEND_DIR,'crop_recommendation_rfc.pickle'), 'wb') as f:
-        pickle.dump(rfr_model, f)
+        pickle.dump(rfc_model, f)
