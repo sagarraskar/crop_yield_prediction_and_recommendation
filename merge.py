@@ -20,26 +20,32 @@ SUBDIVISION_DISTRICTS = {
         "NORTH INTERIOR KARNATAKA": ['BAGALKOT', 'BELGAUM', 'BELLARY', 'BIDAR', 'BIJAPUR', 'DHARWAD', 'GADAG', 'GULBARGA', 'HAVERI', 'KOPPAL', 'RAICHUR'],
         "SOUTH INTERIOR KARNATAKA": ['CHIKMAGALUR', 'CHITRADURGA', 'HASSAN', 'KODAGU', 'KOLAR', 'MYSORE', 'SHIMOGA', 'TUMKUR']
     },
-    'MAHARASHTRA' : {
-        'KONKAN AND GOA' : ['palghar', 'thane', 'mumbai suburban', 'mumbai city', 'raigad', 'ratnagiri','sindhudurg','mumbai'], 
-        'MADHYA MAHARASHTRA' : ['ahmednagar', 'dhule', 'jalgaon', 'kolhapur', 'nandurbar', 'nashik', 'pune', 'sangli','satara', 'solapur'],
-        'MATATHWADA':['aurangabad', 'beed', 'jalna', 'parbhani', 'osmanabad', 'latur', 'nanded', 'hingoli'], 
-        'VIDARBHA' : ['buldhana', 'akola', 'washim', 'amravati', 'yavatmal', 'wardha', 'nagpur', 'chandrapur', 'gadchiroli', 'gondia', 'bhandara'],
+    "Maharashtra": {
+        'KONKAN AND GOA': ['PALGHAR', 'THANE', 'MUMBAI SUBURBAN', 'MUMBAI CITY', 'RAIGAD', 'RATNAGIRI', 'SINDHUDURG', 'MUMBAI'],
+        'MADHYA MAHARASHTRA': ['AHMEDNAGAR', 'DHULE', 'JALGAON', 'KOLHAPUR', 'NANDURBAR', 'NASHIK', 'PUNE', 'SANGLI', 'SATARA', 'SOLAPUR'],
+        'MATATHWADA': ['AURANGABAD', 'BEED', 'JALNA', 'PARBHANI', 'OSMANABAD', 'LATUR', 'NANDED', 'HINGOLI'],
+        'VIDARBHA': ['BULDHANA', 'AKOLA', 'WASHIM', 'AMRAVATI', 'YAVATMAL', 'WARDHA', 'NAGPUR', 'CHANDRAPUR', 'GADCHIROLI', 'GONDIA', 'BHANDARA']
     },
-    'ANDHRA PRADESH' :{
-        'COASTAL ANDHRA PRADESH' : ['srikakulam', 'vizianagaram', 'vishakhapatnam', 'east godavari', 'west godavari', 'machilipatnam', 'guntur', 'prakasam', 'sandhi', 'spsr nellore', 'krishna', 'visakhapatanam'],
-        'RAYALSEEMA' : ['anantapur', 'chittoor', 'kadapa', 'kurnool'], 
+    "Andhra Pradesh": {
+        'COASTAL ANDHRA PRADESH': ['SRIKAKULAM', 'VIZIANAGARAM', 'VISHAKHAPATNAM', 'EAST GODAVARI', 'WEST GODAVARI', 'MACHILIPATNAM',
+                                    'GUNTUR', 'PRAKASAM', 'SANDHI', 'SPSR NELLORE', 'KRISHNA', 'VISAKHAPATANAM'],
+        'RAYALSEEMA': ['ANANTAPUR', 'CHITTOOR', 'KADAPA', 'KURNOOL']
     },
-    "GUJARAT" :{
-        'GUJARAT REGION' : ['ahmadabad', 'anand', 'bharuch', 'chhota udaipur', 'dahod', 'kheda', 'mahisagar', 'panchmahal','dang', 'navsari', 'surat', 'narmada', 'bharuch', 'vadodara', 'tapi', 'valsad', 'mahesana','dadra and nagar haveli', 'patan', 'gandhinagar', 'banas kantha', 'dohad', 'panch mahals', 'sabar kantha'],
-        'SAURASHTRA AND KUTCH' : ['kachchh', 'devbhoomi dwarka', 'jamnagar', 'morbi', 'rajkot', 'porbandar', 'junagadh', 'gir somnath', 'amreli', 'bhavnagar', 'botad', 'surendranagar'],
+    "Gujarat": {
+        'GUJARAT REGION': ['AHMADABAD', 'ANAND', 'BHARUCH', 'CHHOTA UDAIPUR', 'DAHOD', 'KHEDA', 'MAHISAGAR', 'PANCHMAHAL',
+                            'DANG', 'NAVSARI', 'SURAT', 'NARMADA', 'BHARUCH', 'VADODARA', 'TAPI', 'VALSAD',
+                            'MAHESANA', 'DADRA AND NAGAR HAVELI', 'PATAN', 'GANDHINAGAR', 'BANAS KANTHA', 'DOHAD', 'PANCH MAHALS', 'SABAR KANTHA'],
+        'SAURASHTRA AND KUTCH': ['KACHCHH', 'DEVBHOOMI DWARKA', 'JAMNAGAR', 'MORBI', 'RAJKOT', 'PORBANDAR', 'JUNAGADH', 'GIR SOMNATH',
+                                 'AMRELI', 'BHAVNAGAR', 'BOTAD', 'SURENDRANAGAR']
     },
-    "WEST BENGAL":{
-        'GANGETIC WEST BENGAL' : ['bankura', 'paschim bardhaman', 'purba bardhaman', 'birbhum', 'purulia', 'murshidabad', 'nadia', 'west midnapore', 'jhargram', 'east midnapore', 'hooghly', 'howrah', 'kolkata', 'north 24 parganas', 'south 24 parganas', '24 paraganas north', '24 paraganas south',
-                                 'bardhaman', 'dinajpur dakshin', 'dinajpur uttar',  'maldah', 'medinipur east','medinipur west'],
-        'SUB HIMALAYAN WEST BENGAL AND SIKKIM': ['darjeeling', 'jalpaiguri', 'coochbehar']
+    'West Bengal': {
+        'GANGETIC WEST BENGAL': ['BANKURA', 'PASCHIM BARDHAMAN', 'PURBA BARDHAMAN', 'BIRBHUM', 'PURULIA', 'MURSHIDABAD', 'NADIA', 'WEST MIDNAPORE',
+                                 'JHARGRAM', 'EAST MIDNAPORE', 'HOOGHLY', 'HOWRAH', 'KOLKATA', 'NORTH 24 PARGANAS', 'SOUTH 24 PARGANAS', '24 PARAGANAS NORTH', '24 PARAGANAS SOUTH',
+                                 'BARDHAMAN', 'DINAJPUR DAKSHIN', 'DINAJPUR UTTAR', 'MALDAH', 'MEDINIPUR EAST', 'MEDINIPUR WEST'],
+        'SUB HIMALAYAN WEST BENGAL AND SIKKIM': ['DARJEELING', 'JALPAIGURI', 'COOCHBEHAR']
     }
 }
+
 
 SUBDIVISION_STATES = {
     "Andman and Nicobar Islands" : "ANDAMAN & NICOBAR ISLANDS",
@@ -72,14 +78,16 @@ SUBDIVISION_STATES = {
 def getSubDivision(x):
     district = x['District']
     state = x['State']
-    
+
     if state in SUBDIVISION_STATES:
         return SUBDIVISION_STATES[state]
-    
+
     if state in SUBDIVISION_DISTRICTS:
         for subdivision in SUBDIVISION_DISTRICTS[state]:
             if district in SUBDIVISION_DISTRICTS[state][subdivision]:
                 return subdivision
+    # with open('temp.txt', 'a') as f:
+    #     f.write(state + ', ' + district + '\n')
     return None
 
 
