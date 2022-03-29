@@ -1,14 +1,63 @@
+from os import access
 import pickle
 import json
 import numpy as np
 import pandas as pd
 import joblib
+from secret import *
+from config import *
+import requests
+
 __locations = None
 __data_columns_yield = None
 __data_columns_recommend = None
 __yield_model = None
 __recommend_model = None
 
+def get_token():
+    res = requests.post(GEOCODING_AUTH_API_URL, data={'grant_type': "client_credentials", 'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET})
+    res = res.json()
+
+    access_token = res['access_token']
+    token_type = res['token_type']
+    return [access_token, token_type]
+
+def get_daily_weather(state, district):
+    access_token, token_type = get_token()
+    res = requests.get(GEOCODING_API_URL, params={'region': 'ind', 'address': f'{district}, {state}'}, headers={'Authorization': f'{token_type} {access_token}'})
+    res = res.json()
+    latitude = res['copResults']['latitude']
+    longitude = res['copResults']['longitude']
+    res = requests.get(WEATHER_API_URL, params={'lat': latitude, 'lon': longitude, 'units': 'metric', 'appid': WEATHER_API_KEY, 'exclude': 'current, minutely,hourly,alerts'})
+    res = res.json()
+    return res['daily']
+
+def get_rainfall(state, district):
+    daily_weather = get_daily_weather(state, district)
+
+    for weather in daily_weather:
+        if weather['weather'][0]['main'] == "Rain":
+            rain += weather['rain']
+           
+    return rain
+
+def get_temperature(state, district):
+    daily_weather = get_daily_weather(state, district)
+    temp = 0
+    for weather in daily_weather:
+        temp += (weather['temp']['min'] + weather['temp']['max']) / 2
+    
+    temp /= len(daily_weather)
+    return temp
+    
+def get_humidity(state, district):
+    daily_weather = get_daily_weather(state, district)
+    humidity = 0
+    for weather in daily_weather:
+        humidity += weather['humidity']
+    
+    humidity /= len(daily_weather)
+    return humidity
 
 def get_estimated_yield(state, district, crop, season, rainfall):
     load_served_artifacts()
@@ -81,5 +130,6 @@ def load_served_artifacts():
 
 if __name__ == "__main__":
     
-    print(get_estimated_yield("Assam", "BAKSA", "Rice", "kharif", 1366.7))
-    print(recommend_crop("state", "district", 90, 42, 43, 20.879744, 82.002744, 6.502985, 202.935536))
+    # print(get_estimated_yield("Assam", "BAKSA", "Rice", "kharif", 1366.7))
+    # print(recommend_crop("state", "district", 90, 42, 43, 20.879744, 82.002744, 6.502985, 202.935536))
+    print(get_humidity("Maharashtra", "Pune"))

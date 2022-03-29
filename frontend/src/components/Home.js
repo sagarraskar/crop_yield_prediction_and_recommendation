@@ -7,7 +7,7 @@ function Home() {
     return (
         <div>
             <Container style={{ height: "90vh" }} maxWidth='md'>
-                <Grid container spacing={4} style={{ height: '100%' }} alignItems="center" justifyContent='space-around'>
+                <Grid container spacing={8} style={{ height: '100%' }} alignItems="center" justifyContent='center'>
                     <Grid item xs={12} sm={5}>
                         <Card>
                             <Link to='/predict' style={{textDecoration:'none', color:'inherit'}}>
@@ -15,7 +15,7 @@ function Home() {
                                     <CardMedia
                                         component="img"
                                         alt="Contemplative Reptile"
-                                        height="130"
+                                        height="140"
                                         image="https://source.unsplash.com/random"
                                         title="Contemplative Reptile"
                                     />
@@ -38,7 +38,7 @@ function Home() {
                                     <CardMedia
                                         component="img"
                                         alt="Contemplative Reptile"
-                                        height="130"
+                                        height="140"
                                         image="https://source.unsplash.com/random"
                                         title="Contemplative Reptile"
                                     />

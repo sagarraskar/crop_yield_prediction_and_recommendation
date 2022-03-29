@@ -16,11 +16,12 @@ function Predict() {
 
     const predictCrop = () => {
         const url = baseUrl + '/predict'
-        // make post request to backend
+        // make post request to backend with no cors
         fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
                 state: state,
@@ -32,7 +33,7 @@ function Predict() {
         })
             .then(response => response.json())
             .then(data => {
-                setPrediction(data.prediction);
+                setPrediction(data.estimated_yield);
             });
 
     }
