@@ -5,7 +5,9 @@ import DistrictSelect from './DistrictSelect';
 import SeasonSelect from './SeasonSelect';
 import { Box, Container, Typography, Button, TextField, Grid } from '@mui/material';
 
-function Predict() {
+import { baseUrl } from '../shared/baseUrl';
+
+function Recommend() {
     const [state, setState] = React.useState(null);
     const [district, setDistrict] = React.useState(null);
     const [nitrogen, setNitrogen] = React.useState(null);
@@ -47,14 +49,14 @@ function Predict() {
             <Container style={{ height: "90vh", marginTop: '2%' }} maxWidth='md'>
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid container item xs={12} sm={5} justifyContent='center' >
-                        <StateSelect />
+                        <StateSelect state={state} setState={setState} />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
-                        <DistrictSelect />
+                        <DistrictSelect state={state} district = {district} setDistrict={setDistrict} />
                     </Grid>
-                    <Grid container item xs={12} sm={5} justifyContent="center">
-                        <SeasonSelect />
-                    </Grid>
+                    {/* <Grid container item xs={12} sm={5} justifyContent="center">
+                        <SeasonSelect season={season} setSeason={setSeason} />
+                    </Grid> */}
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="N"
@@ -155,4 +157,4 @@ function Predict() {
     )
 }
 
-export default Predict;
+export default Recommend;
