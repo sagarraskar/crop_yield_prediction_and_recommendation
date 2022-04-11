@@ -1,9 +1,10 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 
 import { Link } from 'react-router-dom';
 import { Typography, Card, CardMedia, CardActionArea, CardContent, Button, Container, Grid } from '@mui/material';
 
-function Home() {
+function Home({ t }) {
     return (
         <div>
             <Container style={{ height: "90vh" }} maxWidth='md'>
@@ -21,10 +22,10 @@ function Home() {
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            Crop Predictor
+                                            {t("predict.title")}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" component="p">
-                                            Predict the yield of the crop based on crop, weather conditions, and location.
+                                            {t("predict.description")}    
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
@@ -44,10 +45,10 @@ function Home() {
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            Crop Recommender
+                                            {t("recommend.title")}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" component="p">
-                                            Recommend the best crop to grow based on weather conditions and soil nutrients.
+                                            {t("recommend.description")}    
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
@@ -60,4 +61,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default withTranslation()(Home);

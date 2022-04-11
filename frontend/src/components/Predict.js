@@ -5,8 +5,9 @@ import DistrictSelect from './DistrictSelect';
 import CropSelect from './CropSelect';
 import SeasonSelect from './SeasonSelect';
 import { TextField, Container, Typography, Button, Grid } from '@mui/material';
+import { withTranslation } from 'react-i18next';
 
-function Predict() {
+function Predict({t}) {
     const [state, setState] = React.useState(null);
     const [district, setDistrict] = React.useState(null);
     const [crop, setCrop] = React.useState(null);
@@ -16,7 +17,8 @@ function Predict() {
 
     const predictCrop = () => {
         const url = baseUrl + '/predict'
-        // make post request to backend with no cors
+        // upper case of district
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -25,7 +27,7 @@ function Predict() {
             },
             body: JSON.stringify({
                 state: state,
-                district: district,
+                district: district.toUpperCase(),
                 crop: crop,
                 season: season,
                 rainfall: rainfall
@@ -69,14 +71,14 @@ function Predict() {
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <Button variant="contained" onClick={predictCrop}>
-                            Predict
+                            {t("predict.button")}
                         </Button>
                     </Grid>
                 </Grid>
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <Typography textAlign='center' style={{ marginTop: 50 }}>
-                            {prediction}
+                            {t("predict.output")} : {prediction}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -85,4 +87,4 @@ function Predict() {
     )
 }
 
-export default Predict;
+export default withTranslation()(Predict);

@@ -5,7 +5,7 @@ app = Flask(__name__)
 CORS(app)
 @app.route('/')
 def home():
-    return 'hi'
+    return 'working'
 
 @app.route('/predict',  methods=['POST'])
 def crop_yield_prediction():
@@ -16,9 +16,20 @@ def crop_yield_prediction():
     district = data['district']
     crop = data['crop']
     season = data['season']
-    rainfall = float(data['rainfall'])
+    
+    print(state, district, crop, season)
+    if data['rainfall'] == None or data['rainfall'] == "":
+        print("Getting rainfall")
+        rainfall = util.get_rainfall(state, district)
+        print(rainfall, type(rainfall))
+    else:
+        rainfall = float(data['rainfall'])
+    # rainfall = float(data['rainfall']) if data['rainfall'] != "" else util.get_rainfall(state, district)
+    #rainfall = float(data['rainfall']) if data['rainfall'] is not None else util.get_rainfall(state, district)
+    crop_yield = util.get_estimated_yield(state, district, crop, season, rainfall)
+    print(crop_yield)
     response = jsonify({
-        'estimated_yield': util.get_estimated_yield(state, district, crop, season, rainfall)
+        'estimated_yield': crop_yield
     })
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -32,14 +43,14 @@ def crop_recommend():
     p = float(data['p'])
     k = float(data['k'])
     ph = float(data['ph'])
-    humidity = float(data['humidity'])
-    temperature = float(data['temperature'])
-    rainfall = float(data['rainfall'])
-    State = data['state']
-    District = data['district']
+    state = data['state']
+    district = data['district']
+    humidity = float(data['humidity']) if 'humidity' in data.keys() else util.get_humidity(state, district)
+    temperature = float(data['temperature']) if 'temperature' in data.keys() else util.get_temperature(state, district)
+    rainfall = float(data['rainfall']) if 'rainfall' in data.keys() else util.get_rainfall(state, district)
 
     response = jsonify({
-        'recommended_crop': util.recommend_crop(State, District, n, p, k, temperature, humidity, ph, rainfall)
+        'recommended_crop': util.recommend_crop(state, district, n, p, k, temperature, humidity, ph, rainfall)
     })
 
     response.headers.add('Access-Control-Allow-Origin', '*')

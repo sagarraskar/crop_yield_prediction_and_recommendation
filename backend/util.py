@@ -14,6 +14,18 @@ __data_columns_recommend = None
 __yield_model = None
 __recommend_model = None
 
+
+print("loading saved arifacts...start")
+with open("yield_columns.json", 'r') as f:
+    __data_columns_yield = json.load(f)['data_columns']
+with open("recommendation_columns.json", 'r') as f:
+    __data_columns_recommend = json.load(f)['data_columns']
+with open("crop_yield_prediction_rfr_model.pickle", 'rb') as f:
+    __yield_model = pickle.load(f)
+with open("crop_recommendation_rfc.pickle", 'rb') as f:
+    __recommend_model = pickle.load(f)
+print("Loading saved artifacts...done")
+
 def get_token():
     res = requests.post(GEOCODING_AUTH_API_URL, data={'grant_type': "client_credentials", 'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET})
     res = res.json()
@@ -34,7 +46,7 @@ def get_daily_weather(state, district):
 
 def get_rainfall(state, district):
     daily_weather = get_daily_weather(state, district)
-
+    rain = 0
     for weather in daily_weather:
         if weather['weather'][0]['main'] == "Rain":
             rain += weather['rain']
@@ -60,7 +72,7 @@ def get_humidity(state, district):
     return humidity
 
 def get_estimated_yield(state, district, crop, season, rainfall):
-    load_served_artifacts()
+    # load_served_artifacts()
     global __data_columns_yield
     global __yield_model
 
@@ -80,7 +92,7 @@ def get_estimated_yield(state, district, crop, season, rainfall):
     
 
 def recommend_crop(State, District, N, P, K, temperature, humidity, ph, rainfall):
-    load_served_artifacts()
+    # load_served_artifacts()
     global __data_columns_recommend
     global __recommend_model
     
