@@ -58,7 +58,7 @@ function Predict({t}) {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="rainfall"
-                            label="Rainfall"
+                            label={t('predict.rainfall.label')}
                             type="number"
                             fullWidth
                             variant="outlined"
@@ -78,7 +78,7 @@ function Predict({t}) {
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <Typography textAlign='center' style={{ marginTop: 50 }}>
-                            {t("predict.output")} : {prediction}
+                            {t("predict.output")} : {prediction} {t("predict.unit")}
                         </Typography>
                     </Grid>
                 </Grid>

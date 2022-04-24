@@ -24,8 +24,22 @@ with open("crop_yield_prediction_rfr_model.pickle", 'rb') as f:
     __yield_model = pickle.load(f)
 with open("crop_recommendation_rfc.pickle", 'rb') as f:
     __recommend_model = pickle.load(f)
-print("Loading saved artifacts...done")
 
+# Crop recommendation feature scalers
+N_scaler = joblib.load('recommendation_N_scaler.joblib')
+P_scaler = joblib.load('recommendation_P_scaler.joblib')
+K_scaler = joblib.load('recommendation_K_scaler.joblib')
+temperature_scaler = joblib.load('recommendation_temperature_scaler.joblib')
+humidity_scaler = joblib.load('recommendation_humidity_scaler.joblib')
+ph_scaler = joblib.load('recommendation_ph_scaler.joblib')
+rainfall_scaler = joblib.load('recommendation_rainfall_scaler.joblib')
+
+# Crop yield predictions feature encoder and scaler
+le_state = joblib.load('state_encoder.joblib')
+le_crop = joblib.load('crop_encoder.joblib')
+rainfall_scaler = joblib.load('yield_rainfall_scaler.joblib')
+
+print("Loading saved artifacts...done")
 def get_token():
     res = requests.post(GEOCODING_AUTH_API_URL, data={'grant_type': "client_credentials", 'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET})
     res = res.json()
@@ -76,14 +90,11 @@ def get_estimated_yield(state, district, crop, season, rainfall):
     global __data_columns_yield
     global __yield_model
 
-    le_state = joblib.load('state_encoder.joblib')
+
     state = le_state.transform([state])[0]
-    
-    le_crop = joblib.load('crop_encoder.joblib')
     crop = le_crop.transform([crop])[0]
-    
-    rainfall_scaler = joblib.load('yield_rainfall_scaler.joblib')
     rainfall = rainfall_scaler.transform(np.array([rainfall]).reshape(-1,1))[0]
+    
     data = [[state, crop, rainfall, 1 if season == 'Autumn' else 0, 1 if season == 'Kharif' else 0, 1 if season == 'Rabi' else 0, 1 if season == 'Summer' else 0, 1 if season == 'Whole Year' else 0, 1 if season == 'Winter' else 0 ]]
 
     df = pd.DataFrame(data, columns=__yield_model.feature_names)
@@ -96,30 +107,19 @@ def recommend_crop(State, District, N, P, K, temperature, humidity, ph, rainfall
     global __data_columns_recommend
     global __recommend_model
     
-    N_scaler = joblib.load('recommendation_N_scaler.joblib')
     N = N_scaler.transform(np.array([N]).reshape(-1,1))
-    
-    P_scaler = joblib.load('recommendation_P_scaler.joblib')
     P = P_scaler.transform(np.array([P]).reshape(-1,1))
-    
-    K_scaler = joblib.load('recommendation_K_scaler.joblib')
     K = K_scaler.transform(np.array([K]).reshape(-1,1))
-    
-    temperature_scaler = joblib.load('recommendation_temperature_scaler.joblib')
     temperature = temperature_scaler.transform(np.array([temperature]).reshape(-1,1))
-    
-    humidity_scaler = joblib.load('recommendation_humidity_scaler.joblib')
     humidity = humidity_scaler.transform(np.array([humidity]).reshape(-1,1))
-
-    ph_scaler = joblib.load('recommendation_ph_scaler.joblib')
     ph = ph_scaler.transform(np.array([ph]).reshape(-1,1))
-    
-    rainfall_scaler = joblib.load('recommendation_rainfall_scaler.joblib')
     rainfall = rainfall_scaler.transform(np.array([rainfall]).reshape(-1,1))
 
     data = [[N, P, K, temperature, humidity, ph, rainfall]]
     df = pd.DataFrame(data, columns=__recommend_model.feature_names)
-    return __recommend_model.predict(df)[0]
+    predictions = __recommend_model.classes_[np.argsort(__recommend_model.predict_proba(df))[:, :-3 - 1:-1]]
+
+    return predictions
 
 
 def load_served_artifacts():
@@ -143,5 +143,5 @@ def load_served_artifacts():
 if __name__ == "__main__":
     
     # print(get_estimated_yield("Assam", "BAKSA", "Rice", "kharif", 1366.7))
-    # print(recommend_crop("state", "district", 90, 42, 43, 20.879744, 82.002744, 6.502985, 202.935536))
-    print(get_humidity("Maharashtra", "Pune"))
+    print(recommend_crop("state", "district", 90, 42, 43, 20.879744, 82.002744, 6.502985, 202.935536))
+    # print(get_humidity("Maharashtra", "Pune"))

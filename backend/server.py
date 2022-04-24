@@ -11,13 +11,13 @@ def home():
 def crop_yield_prediction():
     # get data from the body of the request
     data = request.json
-    print(data)
+    # print(data)
     state = data['state']
     district = data['district']
     crop = data['crop']
     season = data['season']
     
-    print(state, district, crop, season)
+    # print(state, district, crop, season)
     if data['rainfall'] == None or data['rainfall'] == "":
         print("Getting rainfall")
         rainfall = util.get_rainfall(state, district)
@@ -27,7 +27,7 @@ def crop_yield_prediction():
     # rainfall = float(data['rainfall']) if data['rainfall'] != "" else util.get_rainfall(state, district)
     #rainfall = float(data['rainfall']) if data['rainfall'] is not None else util.get_rainfall(state, district)
     crop_yield = util.get_estimated_yield(state, district, crop, season, rainfall)
-    print(crop_yield)
+    # print(crop_yield)
     response = jsonify({
         'estimated_yield': crop_yield
     })
@@ -37,12 +37,12 @@ def crop_yield_prediction():
 @app.route('/recommend', methods=['POST'])
 def crop_recommend():
     data = request.json
-    print(data)
+    # print(data)
     
-    n = float(data['n'])
-    p = float(data['p'])
-    k = float(data['k'])
-    ph = float(data['ph'])
+    n = float(data['nitrogen'])
+    p = float(data['phosphorus'])
+    k = float(data['potassium'])
+    ph = float(data['pH'])
     state = data['state']
     district = data['district']
     humidity = float(data['humidity']) if 'humidity' in data.keys() else util.get_humidity(state, district)
@@ -50,7 +50,7 @@ def crop_recommend():
     rainfall = float(data['rainfall']) if 'rainfall' in data.keys() else util.get_rainfall(state, district)
 
     response = jsonify({
-        'recommended_crop': util.recommend_crop(state, district, n, p, k, temperature, humidity, ph, rainfall)
+        'recommended_crops': util.recommend_crop(state, district, n, p, k, temperature, humidity, ph, rainfall).tolist()
     })
 
     response.headers.add('Access-Control-Allow-Origin', '*')

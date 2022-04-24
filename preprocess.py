@@ -40,6 +40,7 @@ if __name__ == '__main__':
     crop_recommendation['rainfall'] = min_max_scaler.fit_transform(crop_recommendation['rainfall'].values.reshape(-1,1))
     joblib.dump(min_max_scaler, os.path.join(settings.BACKEND_DIR, 'recommendation_rainfall_scaler.joblib'))
     
+    crop_recommendation.to_csv(os.path.join(settings.PROCESSED_DIR, settings.CROP_RECOMMENDATION_DATA_FINAL), index=False)
     # split dataset 
     crop_recommendation_train, crop_recommendation_test = train_test_split(crop_recommendation, test_size=0.2, random_state=42)
     

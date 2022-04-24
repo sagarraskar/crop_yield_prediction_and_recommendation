@@ -17,7 +17,7 @@ function Home({ t }) {
                                         component="img"
                                         alt="Contemplative Reptile"
                                         height="140"
-                                        image="https://source.unsplash.com/random"
+                                        image="crop_yield_prediction.jpg"
                                         title="Contemplative Reptile"
                                     />
                                     <CardContent>
@@ -40,7 +40,7 @@ function Home({ t }) {
                                         component="img"
                                         alt="Contemplative Reptile"
                                         height="140"
-                                        image="https://source.unsplash.com/random"
+                                        image="crop_recommendation.jpg"
                                         title="Contemplative Reptile"
                                     />
                                     <CardContent>

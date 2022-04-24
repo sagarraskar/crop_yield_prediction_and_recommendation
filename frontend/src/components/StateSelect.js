@@ -24,7 +24,7 @@ function StateSelect({ state, setState, t, i18n }) {
       id="states-autocomplete"
       options={states}
       sx={{ width: '100%'}}
-      renderInput={(params) => <TextField {...params} label="Select State" />}
+      renderInput={(params) => <TextField {...params} label={t('predict.state.label')} />}
       value={localState || null}
       onChange={(event, value) => handleChange(value)}
       getOptionLabel={(option)=>option?option:""}

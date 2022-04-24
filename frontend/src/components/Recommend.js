@@ -4,12 +4,13 @@ import StateSelect from './StateSelect';
 import DistrictSelect from './DistrictSelect';
 import SeasonSelect from './SeasonSelect';
 import { Box, Container, Typography, Button, TextField, Grid } from '@mui/material';
-
+import { withTranslation } from 'react-i18next';
 import { baseUrl } from '../shared/baseUrl';
 
-function Recommend() {
+function Recommend({t, i18n}) {
     const [state, setState] = React.useState(null);
     const [district, setDistrict] = React.useState(null);
+    // const [season, setSeason] = React.useState(null);
     const [nitrogen, setNitrogen] = React.useState(null);
     const [phosphorus, setPhosphorus] = React.useState(null);
     const [potassium, setPotassium] = React.useState(null);
@@ -19,6 +20,7 @@ function Recommend() {
     const [temperature, settemperature] = React.useState(null);
     const [recommendation, setRecommendation] = React.useState(null);
 
+    const en_json = require('../assets/i18n/translations/en.json');
     const recommendCrop = () => {
         const url = baseUrl + '/recommend'
         // make post request to backend
@@ -41,7 +43,16 @@ function Recommend() {
         })
         .then(response => response.json())
         .then(data => {
-            setRecommendation(data.recommendation);
+            let recommendations = data.recommended_crops[0];
+            let output = ""
+            if (i18n.language !== 'en') {
+                for(let i=0; i<3;i++) {
+                    const key = Object.keys(en_json).find(key => en_json[key] === recommendations[i]);
+                    recommendations[i] = t(key);
+                }
+
+            }
+            setRecommendation(recommendations.join(', ').toString());
         });
     }
     return (
@@ -60,7 +71,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="N"
-                            label="Nitrogen"
+                            label={t('recommend.nitrogen.label')}
                             type="number"
                             variant="outlined"
                             style={{ width: '100%' }}
@@ -71,7 +82,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="K"
-                            label="Potassium"
+                            label={t('recommend.potassium.label')}
                             type="number"
                             fullWidth
                             variant="outlined"
@@ -83,7 +94,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="P"
-                            label="Phosphorus"
+                            label={t('recommend.phosphorus.label')}
                             type="number"
                             variant="outlined"
                             style={{ width: '100%' }}
@@ -94,7 +105,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="ph"
-                            label="pH"
+                            label={t('recommend.ph.label')}
                             type="number"
                             fullWidth
                             variant="outlined"
@@ -106,7 +117,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="temperature"
-                            label="Temperature"
+                            label={t('recommend.temperature.label')}
                             type="number"
                             variant="outlined"
                             style={{ width: '100%' }}
@@ -117,7 +128,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="humidity"
-                            label="Humidity"
+                            label={t('recommend.humidity.label')}
                             type="number"
                             fullWidth
                             variant="outlined"
@@ -129,7 +140,7 @@ function Recommend() {
                     <Grid container item xs={12} sm={5} justifyContent="center">
                         <TextField
                             id="rainfall"
-                            label="Rainfall"
+                            label={t('recommend.rainfall.label')}
                             type="number"
                             fullWidth
                             variant="outlined"
@@ -139,15 +150,17 @@ function Recommend() {
                         />
                     </Grid>
                     <Grid container item xs={12} sm={5} justifyContent="center">
-                        <Button variant="contained" >
-                            Predict
+                    </Grid>
+                    <Grid container item xs={12} sm={5} justifyContent="center">
+                        <Button variant="contained" onClick={recommendCrop}>
+                            Recommend
                         </Button>
                     </Grid>
                 </Grid>
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid item>
                         <Typography textAlign='center' style={{ marginTop: 50 }}>
-                            {recommendation}
+                            {t('recommend.output')} : {recommendation}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -157,4 +170,4 @@ function Recommend() {
     )
 }
 
-export default Recommend;
+export default withTranslation()(Recommend);
